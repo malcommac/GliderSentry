@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Glider",
+        "repositoryURL": "https://github.com/malcommac/Glider.git",
+        "state": {
+          "branch": "main",
+          "revision": "5cf95e4215ac4c910c98ab8f08f759aaaf1d9d2b",
+          "version": null
+        }
+      },
+      {
+        "package": "Sentry",
+        "repositoryURL": "https://github.com/getsentry/sentry-cocoa.git",
+        "state": {
+          "branch": "master",
+          "revision": "724d759a7a1e285f5c2ff9c730a80229c227c667",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
