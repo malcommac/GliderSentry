@@ -15,11 +15,17 @@ import Glider
 import Sentry
 
 open class SentryTransport: Transport {
-    
+
     // MARK: - Public Properties
     
+    /// Is the transport enabled.
+    public var isEnabled: Bool = true
+    
+    /// Minimum accepted level
+    public var minimumAcceptedLevel: Glider.Level? = nil
+    
     /// GCD queue.
-    public var queue: DispatchQueue?
+    public var queue: DispatchQueue
     
     /// Configuration.
     public let configuration: Configuration
@@ -30,7 +36,8 @@ open class SentryTransport: Transport {
     /// - Parameter builder: builder pattern.
     public init(_ builder: ((inout Configuration) -> Void)? = nil) {
         self.configuration = Configuration(builder)
-    
+        self.queue = configuration.queue
+
         if let sdkConfiguration = configuration.sdkConfiguration {
             SentrySDK.start(options: sdkConfiguration)
         }
@@ -68,8 +75,9 @@ extension SentryTransport {
         /// `SentryTransport` will always use the static methods of `SentrySDK` to dispatch events.
         public var sdkConfiguration: Sentry.Options?
         
+        
         /// Formatter used to transform a payload into a string.
-        public var formatters = [EventFormatter]()
+        public var formatters = [EventMessageFormatter]()
         
         /// Matches on the name of the logger, which is useful to combine all messages of a logger together.
         ///  This match is case sensitive.
@@ -80,7 +88,11 @@ extension SentryTransport {
         /// More on <https://docs.sentry.io/product/sentry-basics/environments/>.
         public var environment: String?
         
+        // The `DispatchQueue` to use for the recorder.
+        public var queue: DispatchQueue
+        
         public init(_ builder: ((inout Configuration) -> Void)?) {
+            self.queue = DispatchQueue(label: String(describing: type(of: self)), attributes: [])
             builder?(&self)
         }
         

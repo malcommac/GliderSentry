@@ -30,6 +30,7 @@ extension Glider.Level {
         case .notice: return .info
         case .info: return .info
         case .debug: return .debug
+        case .trace: return .debug
         }
     }
     
